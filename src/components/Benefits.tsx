@@ -1,101 +1,122 @@
-import React from "react";
 import { motion } from "framer-motion";
+import homePage from "../assets/homePage.jpg";
+import GodrejLogo from "../assets/GodrejLogo.png";
+import LodhaLogo from "../assets/LodhaLogo.png";
+import ParkLogo from "../assets/ParkLogo.png";
+import PrologisLogo from "../assets/PrologisLogo.png";
+import SobhaLogo from "../assets/SobhaLogo.png";
 
 const benefits = [
     {
         number: "01.",
         title: "Access to Exclusive Projects",
-        desc: "Monitor various exclusive project listings from trusted vendors, enabling them to be interesting for potential buyers."
+        desc: "Monitor various exclusive project listings from trusted vendors, enabling them to be interesting for potential buyers.",
     },
     {
         number: "02.",
         title: "Personal Data Privacy is Safe",
-        desc: "All transaction data of you and your buyers, both privacy and their legal support and access methods, must be kept safe."
+        desc: "All transaction data of you and your buyers, both privacy and their legal support and access methods, must be kept safe.",
     },
     {
         number: "03.",
         title: "Faster and Easier Transactions",
-        desc: "You can search for property types in easy features. Transactions are faster and you can get commissions easily."
-    }
+        desc: "You can search for property types in easy features. Transactions are faster and you can get commissions easily.",
+    },
 ];
 
 const companyLogos = [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Brookfield_Asset_Management_logo.svg/512px-Brookfield_Asset_Management_logo.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/JLL_logo.svg/512px-JLL_logo.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Logo_Park_Hotels_&_Resorts.svg/512px-Logo_Park_Hotels_&_Resorts.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Prologis_logo.svg/512px-Prologis_logo.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Regency_Centers_logo.svg/512px-Regency_Centers_logo.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Weyerhaeuser_logo.svg/512px-Weyerhaeuser_logo.svg.png"
+    GodrejLogo,
+    LodhaLogo,
+    ParkLogo,
+    PrologisLogo,
+    SobhaLogo,
 ];
 
 const Benefits = () => {
     return (
-        <section className="w-full bg-gray-50 px-6 sm:px-16 py-16 font-sans">
-            <div className="max-w-6xl mx-auto text-center mb-12">
+        <section className="w-full bg-gray-50 px-6 sm:px-16 py-20 font-sans">
+
+            {/* Text section first */}
+            <div className="max-w-6xl mx-auto text-center mb-16">
                 <motion.h2
                     initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     viewport={{ once: true }}
-                    className="text-3xl sm:text-4xl font-bold text-gray-800"
+                    className="text-4xl sm:text-5xl font-bold text-gray-800"
                 >
-                    Benefit of Choosing Us
+                    Benefits of Choosing Us
                 </motion.h2>
             </div>
 
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                viewport={{ once: true }}
-                className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-6xl mx-auto text-center mb-12"
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
                 {benefits.map((benefit, index) => (
-                    <div key={index} className="px-6">
-                        <p className="text-2xl font-bold text-blue-600 mb-2">{benefit.number}</p>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-2">{benefit.title}</h3>
-                        <p className="text-gray-600 text-sm">{benefit.desc}</p>
-                    </div>
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.2, duration: 0.5 }}
+                        viewport={{ once: true }}
+                        className="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-all text-center border border-gray-100"
+                    >
+                        <p className="text-3xl font-bold text-blue-600 mb-4">
+                            {benefit.number}
+                        </p>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                            {benefit.title}
+                        </h3>
+                        <p className="text-gray-600 text-base leading-relaxed">
+                            {benefit.desc}
+                        </p>
+                    </motion.div>
                 ))}
-            </motion.div>
+            </div>
 
+            {/* Image section after text */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className="max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-lg mb-20"
+                className="max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-xl mb-20"
             >
                 <img
-                    src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1500&q=80"
+                    src={homePage}
                     alt="Modern Building"
-                    className="w-full h-64 object-cover"
+                    className="w-full h-[480px] sm:h-[550px] object-cover"
                 />
             </motion.div>
 
             {/* Infinite Logo Carousel */}
-            <div className="overflow-hidden whitespace-nowrap py-10 bg-white">
-                <div className="inline-block animate-marquee space-x-16">
-                    {companyLogos.concat(companyLogos).map((logo, index) => (
+            <div className="relative overflow-hidden bg-white py-10">
+                <div className="flex animate-marquee space-x-16 w-max">
+                    {companyLogos.map((logo, index) => (
                         <img
-                            key={index}
+                            key={`logo1-${index}`}
                             src={logo}
                             alt="Company Logo"
-                            className="inline h-16 object-contain mx-4"
+                            className="h-14 sm:h-16 object-contain mx-4"
+                        />
+                    ))}
+                    {companyLogos.map((logo, index) => (
+                        <img
+                            key={`logo2-${index}`}
+                            src={logo}
+                            alt="Company Logo"
+                            className="h-14 sm:h-16 object-contain mx-4"
                         />
                     ))}
                 </div>
             </div>
 
+            {/* Marquee Animation */}
             <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-          display: inline-block;
-          white-space: nowrap;
-          animation: marquee 20s linear infinite;
+          animation: marquee 30s linear infinite;
         }
       `}</style>
         </section>
