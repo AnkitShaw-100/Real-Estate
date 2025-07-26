@@ -59,7 +59,7 @@ const TestimonialsPage = () => {
                         transition={{ duration: 0.4 }}
                         className="bg-white rounded-3xl shadow-md px-8 py-10"
                     >
-                        <FaQuoteLeft className="text-4xl text-blue-600 mb-4 mx-auto" />
+                        <FaQuoteLeft className="text-4xl text-blue-900 mb-4 mx-auto" />
                         <p className="text-gray-700 text-lg italic mb-6">
                             "{testimonials[current].text}"
                         </p>
@@ -81,14 +81,14 @@ const TestimonialsPage = () => {
                 <div className="flex justify-between items-center mt-8 px-6 sm:px-10">
                     <button
                         onClick={prevTestimonial}
-                        className="text-blue-500 hover:text-blue-600 transition text-lg flex items-center gap-1"
+                        className="text-blue-900 hover:text-blue-800 transition text-lg flex items-center gap-1"
                     >
                         <FaChevronLeft />
                         Previous
                     </button>
                     <button
                         onClick={nextTestimonial}
-                        className="text-blue-500 hover:text-blue-600 transition text-lg flex items-center gap-1"
+                        className="text-blue-900 hover:text-blue-800 transition text-lg flex items-center gap-1"
                     >
                         Next <FaChevronRight />
                     </button>

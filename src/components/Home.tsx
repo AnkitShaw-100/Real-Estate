@@ -113,7 +113,7 @@ const Home = () => {
                         />
 
                         {/* Search Button */}
-                        <button className="w-full sm:w-auto px-6 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg">
+                        <button className="w-full sm:w-auto px-6 py-4 bg-blue-800 hover:bg-blue-900 text-white font-semibold rounded-xl transition-all shadow-lg">
                             Search
                         </button>
                     </motion.div>
@@ -140,7 +140,7 @@ const Home = () => {
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-md"
+                        className="px-6 py-3 bg-blue-800 hover:bg-blue-900 text-white font-semibold rounded-lg transition-all shadow-md"
                     >
                         See Our Projects
                     </motion.button>
@@ -166,7 +166,7 @@ const Home = () => {
                             transition={{ type: "spring", stiffness: 300 }}
                             className="p-4 bg-white rounded-xl shadow hover:shadow-lg"
                         >
-                            <p className="text-3xl font-bold text-blue-600">{stat.value}</p>
+                            <p className="text-3xl font-bold text-blue-900">{stat.value}</p>
                             <p className="text-gray-600 text-sm sm:text-base">{stat.label}</p>
                         </motion.div>
                     ))}

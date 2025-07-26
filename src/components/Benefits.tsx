@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import homePage from "../assets/homePage.jpg";
-import GodrejLogo from "../assets/GodrejLogo.png";
-import LodhaLogo from "../assets/LodhaLogo.png";
-import ParkLogo from "../assets/ParkLogo.png";
-import PrologisLogo from "../assets/PrologisLogo.png";
-import SobhaLogo from "../assets/SobhaLogo.png";
+import GodrejLogo from "../assets/companyLogo/GodrejLogo.png";
+import LodhaLogo from "../assets/companyLogo/LodhaLogo.png";
+import ParkLogo from "../assets/companyLogo/ParkLogo.png";
+import PrologisLogo from "../assets/companyLogo/PrologisLogo.png";
+import SobhaLogo from "../assets/companyLogo/SobhaLogo.png";
 
 const benefits = [
     {
@@ -36,7 +36,7 @@ const Benefits = () => {
     return (
         <section className="w-full bg-gray-50 px-6 sm:px-16 py-20 font-sans">
 
-            {/* Text section first */}
+            {/* Text section */}
             <div className="max-w-6xl mx-auto text-center mb-16">
                 <motion.h2
                     initial={{ opacity: 0, y: -20 }}
@@ -49,6 +49,7 @@ const Benefits = () => {
                 </motion.h2>
             </div>
 
+            {/* Benefit Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
                 {benefits.map((benefit, index) => (
                     <motion.div
@@ -59,7 +60,7 @@ const Benefits = () => {
                         viewport={{ once: true }}
                         className="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-all text-center border border-gray-100"
                     >
-                        <p className="text-3xl font-bold text-blue-600 mb-4">
+                        <p className="text-3xl font-bold text-blue-900 mb-4">
                             {benefit.number}
                         </p>
                         <h3 className="text-xl font-semibold text-gray-800 mb-3">
@@ -72,7 +73,7 @@ const Benefits = () => {
                 ))}
             </div>
 
-            {/* Image section after text */}
+            {/* Image Section */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -88,37 +89,33 @@ const Benefits = () => {
             </motion.div>
 
             {/* Infinite Logo Carousel */}
-            <div className="relative overflow-hidden bg-white py-10">
-                <div className="flex animate-marquee space-x-16 w-max">
-                    {companyLogos.map((logo, index) => (
+            <div className="relative bg-white py-10 overflow-hidden">
+                <div className="marquee-track flex w-max animate-marquee">
+                    {[...companyLogos, ...companyLogos].map((logo, index) => (
                         <img
-                            key={`logo1-${index}`}
+                            key={index}
                             src={logo}
                             alt="Company Logo"
-                            className="h-14 sm:h-16 object-contain mx-4"
-                        />
-                    ))}
-                    {companyLogos.map((logo, index) => (
-                        <img
-                            key={`logo2-${index}`}
-                            src={logo}
-                            alt="Company Logo"
-                            className="h-14 sm:h-16 object-contain mx-4"
+                            className="h-14 sm:h-16 object-contain mx-8"
                         />
                     ))}
                 </div>
-            </div>
 
-            {/* Marquee Animation */}
-            <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-      `}</style>
+                <style>{`
+                    .marquee-track {
+                        display: flex;
+                        animation: marquee 20s linear infinite;
+                    }
+                    @keyframes marquee {
+                        0% {
+                            transform: translateX(0%);
+                        }
+                        100% {
+                            transform: translateX(-50%);
+                        }
+                    }
+                `}</style>
+            </div>
         </section>
     );
 };

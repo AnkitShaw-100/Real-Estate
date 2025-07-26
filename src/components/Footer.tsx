@@ -2,7 +2,8 @@ import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <footer className="bg-blue-800 text-white px-6 sm:px-16 py-16">
+        // Background set to blue-900
+        <footer className="bg-blue-900 text-white px-6 sm:px-16 py-16">
             <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
                 {/* Column 1 - About */}
                 <div>
@@ -15,9 +16,10 @@ const Footer = () => {
                         <p>📧 propark@domain.com</p>
                     </div>
                     <div className="flex space-x-4 mt-4 text-white">
-                        <a href="#" className="hover:text-blue-300"><FaFacebookF /></a>
-                        <a href="#" className="hover:text-blue-300"><FaTwitter /></a>
-                        <a href="#" className="hover:text-blue-300"><FaInstagram /></a>
+                        {/* Icon hover color changed to blue-800 */}
+                        <a href="#" className="hover:text-blue-800"><FaFacebookF /></a>
+                        <a href="#" className="hover:text-blue-800"><FaTwitter /></a>
+                        <a href="#" className="hover:text-blue-800"><FaInstagram /></a>
                     </div>
                 </div>
 
@@ -25,6 +27,7 @@ const Footer = () => {
                 <div>
                     <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
                     <ul className="text-sm text-gray-200 space-y-2">
+                        {/* Hover color changed to white for consistency */}
                         <li><a href="#" className="hover:text-white">About Us</a></li>
                         <li><a href="#" className="hover:text-white">Blog</a></li>
                         <li><a href="#" className="hover:text-white">Contact</a></li>
@@ -43,13 +46,12 @@ const Footer = () => {
                         <input
                             type="email"
                             placeholder="Enter your email"
-                            className="w-full sm:w-auto flex-1 px-4 py-2 rounded-md text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 placeholder-gray-400 decoration-none hover:border-transparent"
+                            className="w-full sm:w-auto flex-1 px-4 py-2 rounded-md text-gray-800 border-none focus:ring-2 focus:ring-blue-800 transition duration-200 placeholder-gray-400 outline-none shadow-sm hover:ring-2 hover:ring-blue-400 hover:bg-blue-50"
                             required
                         />
-
                         <button
                             type="submit"
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md transition"
+                            className="bg-blue-800 hover:bg-blue-900 text-white px-5 py-2 rounded-md transition"
                         >
                             Subscribe
                         </button>
@@ -58,7 +60,8 @@ const Footer = () => {
             </div>
 
             {/* Bottom Section */}
-            <div className="border-t border-blue-700 mt-14 pt-6 text-center text-sm text-gray-400">
+            {/* Divider and border updated to blue-800 */}
+            <div className="border-t border-blue-800 mt-14 pt-6 text-center text-sm text-gray-400">
                 <p>&copy; 2025 PropArk. All Rights Reserved.</p>
                 <div className="flex justify-center flex-wrap mt-3 gap-4 text-xs">
                     <a href="#" className="hover:text-white">About</a>
