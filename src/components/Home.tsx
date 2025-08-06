@@ -48,7 +48,7 @@ const Dropdown = ({ options, selected, setSelected }: DropdownProps) => {
                                 setSelected(option);
                                 setOpen(false);
                             }}
-                            className="px-5 py-3 cursor-pointer hover:bg-gray-100 text-gray-700"
+                            className="px-5 py-3 cursor-pointer hover:bg-blue-200 text-gray-700"
                         >
                             {option}
                         </div>

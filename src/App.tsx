@@ -9,6 +9,7 @@ import BuyerSignup from "./components/pages/BuyerSignup"
 import SellerSignup from './components/pages/SellerSignup'
 import AboutUs from './components/pages/AboutUs'
 import ContactUs from './components/pages/ContactUs'
+import PropertyDetails from './components/pages/PropertyDetails'
 
 import './App.css'
 import PropertyDisplayPage from './components/pages/PropertyDisplayPage'
@@ -20,6 +21,7 @@ const HomePage = () => {
       <Benefits />
       <RecommendedResidences />
       <TestimonialsPage />
+      <PropertyDetails />
     </>
   )
 }

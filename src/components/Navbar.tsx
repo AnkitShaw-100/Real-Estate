@@ -40,7 +40,7 @@ const Navbar = () => {
                 <div className="hidden md:flex space-x-2 sm:space-x-4">
                     <Link
                         to="/signup/buyer"
-                        className="text-blue-800 px-3 sm:px-5 py-1.5 sm:py-2.5 text-sm sm:text-base rounded bg-slate-200 font-medium hover:bg-slate-300 inline-block"
+                        className="text-blue-800 px-3 sm:px-5 py-1.5 sm:py-2.5 text-sm sm:text-base rounded bg-slate-200 font-medium hover:bg-blue-200 inline-block"
                     >
                         Sign In
                     </Link>

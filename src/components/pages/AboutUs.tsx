@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Ankit from "../../assets/team/Ankit.png";
+import Amiya from "../../assets/team/Amiya.jpg"
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const AboutUs = () => {
@@ -16,10 +17,10 @@ const AboutUs = () => {
     {
       name: "Amiya Mishu",
       role: "Frontend Developer",
-      image: Ankit,
+      image: Amiya,
       social: {
-        linkedin: "#",
-        github: "#",
+        linkedin: "https://www.linkedin.com/in/amiya-mishu-871913272",
+        github: "https://github.com/AmiyaMishu",
       },
     },
     {
@@ -27,8 +28,8 @@ const AboutUs = () => {
       role: "AI/ML Developer",
       image: Ankit,
       social: {
-        linkedin: "#",
-        github: "#",
+        linkedin: "https://www.linkedin.com/in/sakshi-gupta-28498a28a",
+        github: "https://github.com/Sakshii2118",
       },
     },
   ];

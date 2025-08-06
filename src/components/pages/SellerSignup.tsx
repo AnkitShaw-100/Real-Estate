@@ -78,7 +78,7 @@ const SellerSignup: React.FC = () => {
                 label: "Full Name",
                 name: "fullName",
                 type: "text",
-                placeholder: "John Doe",
+                placeholder: "Ankit Shaw",
               },
               {
                 label: "Email",
