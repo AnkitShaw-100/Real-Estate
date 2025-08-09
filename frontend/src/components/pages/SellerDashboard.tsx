@@ -17,7 +17,7 @@ interface Property {
   area: number;
   images: string[];
   status: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 const SellerDashboard: React.FC = () => {
@@ -39,7 +39,7 @@ const SellerDashboard: React.FC = () => {
     try {
       setLoading(true);
       const response = await apiClient.getUserProperties();
-      if (response.success) {
+      if (response.success && response.data) {
         setProperties(response.data);
       }
     } catch (error: any) {

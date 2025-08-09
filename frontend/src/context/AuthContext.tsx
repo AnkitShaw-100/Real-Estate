@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import apiClient from '../services/api.ts';
 
 interface User {
   _id: string;
   name: string;
   email: string;
-  phone: string;
-  role: 'buyer' | 'seller' | 'admin';
-  isVerified: boolean;
+  phone?: string;
+  role: string;
+  isVerified?: boolean;
 }
 
 interface AuthContextType {
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         const response = await apiClient.getCurrentUser();
-        if (response.success) {
+        if (response.success && response.data) {
           setUser(response.data);
         } else {
           localStorage.removeItem('token');
@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     const response = await apiClient.login({ email, password });
-    if (response.success) {
+    if (response.success && response.data) {
       setUser(response.data);
     } else {
       throw new Error(response.message || 'Login failed');
@@ -76,7 +76,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (userData: any) => {
     const response = await apiClient.register(userData);
-    if (response.success) {
+    if (response.success && response.data) {
       setUser(response.data);
     } else {
       throw new Error(response.message || 'Registration failed');

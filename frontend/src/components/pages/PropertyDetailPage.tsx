@@ -17,14 +17,14 @@ interface Property {
   area: number;
   images: string[];
   status: string;
-  owner: {
+  owner?: {
     _id: string;
     name: string;
     phone: string;
     email: string;
   };
-  amenities: string[];
-  createdAt: string;
+  amenities?: string[];
+  createdAt?: string;
 }
 
 const PropertyDetailPage: React.FC = () => {
@@ -47,12 +47,12 @@ const PropertyDetailPage: React.FC = () => {
     try {
       setLoading(true);
       const response = await apiClient.getProperty(id!);
-      if (response.success) {
+      if (response.success && response.data) {
         setProperty(response.data);
         // Check if property is in favorites
         try {
           const favoriteResponse = await apiClient.checkFavorite(id!);
-          setIsFavorite(favoriteResponse.isFavorite);
+          setIsFavorite(favoriteResponse.isFavorite || false);
         } catch (error) {
           // Property not in favorites
         }
@@ -258,11 +258,11 @@ const PropertyDetailPage: React.FC = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center">
                     <FaPhone className="text-blue-600 mr-3" />
-                    <span className="text-gray-600">{property.owner.phone}</span>
+                    <span className="text-gray-600">{property.owner?.phone}</span>
                   </div>
                   <div className="flex items-center">
                     <FaEnvelope className="text-blue-600 mr-3" />
-                    <span className="text-gray-600">{property.owner.email}</span>
+                    <span className="text-gray-600">{property.owner?.email}</span>
                   </div>
                 </div>
                 <button
@@ -292,7 +292,7 @@ const PropertyDetailPage: React.FC = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-600">Listed</span>
                     <span className="font-medium">
-                      {new Date(property.createdAt).toLocaleDateString()}
+                      {property.createdAt ? new Date(property.createdAt).toLocaleDateString() : 'N/A'}
                     </span>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
 import { useAuth } from "../context/AuthContext";
@@ -18,6 +18,7 @@ const Navbar = () => {
 
     const navLinks = [
         { text: "Home", path: "/" },
+        { text: "Property", path: "/properties" },
         { text: "Services", path: "/services" },
         { text: "About", path: "/about" },
         { text: "Contact", path: "/contact" },
@@ -142,13 +143,13 @@ const Navbar = () => {
                                     >
                                         Sign In
                                     </Link>
-                                                            <Link
-                            to="/properties"
-                            className="text-white bg-blue-900 px-4 py-2 rounded font-semibold hover:bg-blue-800 text-center"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            Buy now
-                        </Link>
+                                    <Link
+                                        to="/properties"
+                                        className="text-white bg-blue-900 px-4 py-2 rounded font-semibold hover:bg-blue-800 text-center"
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        Buy now
+                                    </Link>
                                 </>
                             )}
                         </div>
