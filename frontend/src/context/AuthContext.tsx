@@ -10,17 +10,26 @@ interface User {
   isVerified?: boolean;
 }
 
+interface UserRegistrationData {
+  name: string;
+  email: string;
+  password: string;
+  role?: 'buyer' | 'seller' | 'admin' | string;
+  phone?: string;
+}
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (userData: any) => Promise<void>;
+  register: (userData: UserRegistrationData) => Promise<void>;
   checkAuth: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -63,9 +72,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     const response = await apiClient.login({ email, password });
     if (response.success && response.data) {
-      setUser(response.data);
+      setUser(response.data.user);
     } else {
-      throw new Error(response.message || 'Login failed');
+      throw new Error(response.error || 'Login failed');
     }
   };
 
@@ -74,12 +83,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
   };
 
-  const register = async (userData: any) => {
+  const register = async (userData: UserRegistrationData) => {
     const response = await apiClient.register(userData);
-    if (response.success && response.data) {
-      setUser(response.data);
+    if (response.success) {
+      // Registration successful, but user needs to login
+      // Don't set user here, redirect to login
     } else {
-      throw new Error(response.message || 'Registration failed');
+      throw new Error(response.error || 'Registration failed');
     }
   };
 

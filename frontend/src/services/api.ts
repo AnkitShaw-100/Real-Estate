@@ -19,7 +19,7 @@ interface UserData {
   name: string;
   email: string;
   password: string;
-  role?: 'buyer' | 'seller' | 'admin' | string; // Allow string for flexibility
+  role?: 'buyer' | 'seller' | 'admin' | string;
   phone?: string;
 }
 
@@ -43,7 +43,12 @@ interface PropertyData {
   price: number;
   location: string;
   propertyType: string;
-  [key: string]: string | number | boolean | string[];
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  amenities?: string[];
+  status?: string;
+  [key: string]: string | number | boolean | string[] | undefined;
 }
 
 interface ReviewData {
@@ -68,13 +73,13 @@ interface Property {
   bedrooms: number;
   bathrooms: number;
   area: number;
-  images: string[];
+  image: string;
+  images?: string[];
   status: string;
   amenities?: string[];
-  owner?: {
+  listedBy?: {
     _id: string;
     name: string;
-    phone: string;
     email: string;
   };
   createdAt?: string;
@@ -134,7 +139,7 @@ class ApiClient {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || data.message || 'Something went wrong');
+        throw new Error(data.message || data.error || 'Something went wrong');
       }
 
       return data;
@@ -146,33 +151,43 @@ class ApiClient {
 
   // Authentication methods
   async register(userData: UserData): Promise<ApiResponse<User>> {
-    return this.request('/auth/register', {
+    const response = await this.request<{ token: string; data: User }>('/auth/register', {
       method: 'POST',
       body: JSON.stringify(userData),
     });
+
+    if (response.data?.token) {
+      this.setAuthToken(response.data.token);
+    }
+
+    return {
+      success: true,
+      data: response.data?.data || response.data,
+      message: response.message || 'User registered successfully'
+    };
   }
 
-  async login(credentials: LoginCredentials): Promise<ApiResponse<User>> {
-    const response = await this.request<{ token: string; user: User }>('/auth/login', {
+  async login(credentials: LoginCredentials): Promise<ApiResponse<{ user: User; token: string }>> {
+    const response = await this.request<{ token: string; data: User }>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
 
-    if (response.success && response.data?.token) {
+    if (response.data?.token) {
       this.setAuthToken(response.data.token);
-      // Return the user data from the response
       return {
-        success: response.success,
-        data: response.data.user,
-        message: response.message,
-        error: response.error
+        success: true,
+        data: {
+          user: response.data.data,
+          token: response.data.token
+        },
+        message: 'Login successful'
       };
     }
 
     return {
       success: false,
-      error: response.error || 'Login failed',
-      message: response.message
+      error: 'Login failed'
     };
   }
 
@@ -199,10 +214,12 @@ class ApiClient {
   }
 
   // Property methods
-  async getProperties(filters: Record<string, string | number | boolean> = {}): Promise<ApiResponse<Property[]>> {
+  async getProperties(filters: Record<string, string | number | boolean> = {}): Promise<ApiResponse<{ properties: Property[], total: number, page: number, pages: number }>> {
     const queryParams = new URLSearchParams();
     Object.entries(filters).forEach(([key, value]) => {
-      queryParams.append(key, String(value));
+      if (value !== undefined && value !== null && value !== '') {
+        queryParams.append(key, String(value));
+      }
     });
     const queryString = queryParams.toString();
     const endpoint = queryString ? `/properties?${queryString}` : '/properties';
@@ -213,11 +230,41 @@ class ApiClient {
     return this.request(`/properties/${id}`);
   }
 
-  async createProperty(propertyData: PropertyData): Promise<ApiResponse> {
-    return this.request('/properties', {
-      method: 'POST',
-      body: JSON.stringify(propertyData),
-    });
+  async createProperty(propertyData: PropertyData | FormData): Promise<ApiResponse> {
+    // Handle both JSON and FormData (for file uploads)
+    if (propertyData instanceof FormData) {
+      const url = `${this.baseURL}/properties`;
+      const config = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.getAuthToken()}`,
+        },
+        body: propertyData,
+      };
+
+      try {
+        const response = await fetch(url, config);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Property creation failed');
+        }
+
+        return { success: true, data, message: 'Property created successfully' };
+      } catch (error) {
+        console.error('Property creation error:', error);
+        throw error;
+      }
+    } else {
+      return this.request('/properties', {
+        method: 'POST',
+        body: JSON.stringify(propertyData),
+      });
+    }
+  }
+
+  async getUserProperties(): Promise<ApiResponse<Property[]>> {
+    return this.request('/properties/my');
   }
 
   async updateProperty(id: string | number, propertyData: Partial<PropertyData>): Promise<ApiResponse> {
@@ -256,37 +303,19 @@ class ApiClient {
     });
   }
 
-  async getUserProperties(): Promise<ApiResponse<Property[]>> {
-    return this.request('/users/properties');
-  }
-
-  async getUserStats(): Promise<ApiResponse> {
-    return this.request('/users/stats');
-  }
-
   // Favorites methods
-  async getFavorites(): Promise<ApiResponse> {
-    return this.request('/favorites');
+  async getFavorites(): Promise<ApiResponse<Property[]>> {
+    return this.request('/properties/favorites');
   }
 
   async addToFavorites(propertyId: string | number): Promise<ApiResponse> {
-    return this.request(`/favorites/${propertyId}`, {
+    return this.request(`/properties/favorites/${propertyId}`, {
       method: 'POST',
     });
   }
 
   async removeFromFavorites(propertyId: string | number): Promise<ApiResponse> {
-    return this.request(`/favorites/${propertyId}`, {
-      method: 'DELETE',
-    });
-  }
-
-  async checkFavorite(propertyId: string | number): Promise<ApiResponse<{ isFavorite: boolean }>> {
-    return this.request(`/favorites/${propertyId}/check`);
-  }
-
-  async clearFavorites(): Promise<ApiResponse> {
-    return this.request('/favorites', {
+    return this.request(`/properties/favorites/${propertyId}`, {
       method: 'DELETE',
     });
   }

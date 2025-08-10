@@ -3,7 +3,7 @@ import { FaGithub, FaFacebookF } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import image3 from "../../assets/exterior/image3.jpg";
-import apiClient from "../../services/api.ts";
+import { useAuth } from "../../context/AuthContext";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,6 +23,7 @@ const itemVariants = {
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -54,27 +55,20 @@ const Login: React.FC = () => {
         throw new Error("Please enter a valid email address");
       }
 
-      const credentials = {
-        email: form.email,
-        password: form.password,
-      };
-
-      const response = await apiClient.login(credentials);
+      await login(form.email, form.password);
       
-      if (response.success) {
-        setSuccess("Login successful! Redirecting...");
-        
-        // Clear form
-        setForm({
-          email: "",
-          password: "",
-        });
-        
-        // Redirect to home page after 1 second
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
-      }
+      setSuccess("Login successful! Redirecting...");
+      
+      // Clear form
+      setForm({
+        email: "",
+        password: "",
+      });
+      
+      // Redirect to home page after 1 second
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error: any) {
       console.error("Login error:", error);
       setError(error.message || "Login failed. Please check your credentials.");

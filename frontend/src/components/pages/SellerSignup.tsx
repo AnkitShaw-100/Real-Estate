@@ -90,9 +90,10 @@ const SellerSignup: React.FC = () => {
           navigate("/login");
         }, 2000);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Signup error:", error);
-      setError(error.message || "Failed to create account. Please try again.");
+      const errorMessage = error instanceof Error ? error.message : "Failed to create account. Please try again.";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

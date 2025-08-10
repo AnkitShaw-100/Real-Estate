@@ -74,7 +74,7 @@ const BuyerSignup: React.FC = () => {
       };
 
       const response = await apiClient.register(userData);
-      
+
       if (response.success) {
         setSuccess("Account created successfully! Redirecting to login...");
         // Clear form
@@ -84,15 +84,16 @@ const BuyerSignup: React.FC = () => {
           phone: "",
           password: "",
         });
-        
+
         // Redirect to login after 2 seconds
         setTimeout(() => {
           navigate("/login");
         }, 2000);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Signup error:", error);
-      setError(error.message || "Failed to create account. Please try again.");
+      const errorMessage = error instanceof Error ? error.message : "Failed to create account. Please try again.";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -142,7 +143,7 @@ const BuyerSignup: React.FC = () => {
               {error}
             </motion.div>
           )}
-          
+
           {success && (
             <motion.div
               className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg"
@@ -220,11 +221,10 @@ const BuyerSignup: React.FC = () => {
             <motion.button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 rounded-lg font-medium transition ${
-                loading
+              className={`w-full py-3 rounded-lg font-medium transition ${loading
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-blue-900 hover:bg-blue-800 text-white"
-              }`}
+                }`}
               whileHover={!loading ? { scale: 1.02 } : {}}
               whileTap={!loading ? { scale: 0.98 } : {}}
               variants={itemVariants}

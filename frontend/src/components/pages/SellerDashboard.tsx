@@ -42,8 +42,9 @@ const SellerDashboard: React.FC = () => {
       if (response.success && response.data) {
         setProperties(response.data);
       }
-    } catch (error: any) {
-      setError(error.message || "Failed to fetch properties");
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to fetch properties";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -58,13 +59,28 @@ const SellerDashboard: React.FC = () => {
   };
 
   const handleDeleteProperty = async (propertyId: string) => {
-    if (window.confirm('Are you sure you want to delete this property?')) {
+    if (window.confirm('Are you sure you want to delete this property? This action cannot be undone.')) {
       try {
         await apiClient.deleteProperty(propertyId);
         setProperties(properties.filter(p => p._id !== propertyId));
-      } catch (error: any) {
-        setError(error.message || "Failed to delete property");
+        // Show success message
+        setError(""); // Clear any previous errors
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Failed to delete property";
+        setError(errorMessage);
       }
+    }
+  };
+
+  const handleStatusChange = async (propertyId: string, newStatus: string) => {
+    try {
+      await apiClient.updateProperty(propertyId, { status: newStatus });
+      setProperties(properties.map(p => 
+        p._id === propertyId ? { ...p, status: newStatus } : p
+      ));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to update property status";
+      setError(errorMessage);
     }
   };
 
@@ -200,13 +216,24 @@ const SellerDashboard: React.FC = () => {
                           <div className="text-sm text-gray-900">{property.location}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            property.status === 'active' 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-yellow-100 text-yellow-800'
-                          }`}>
-                            {property.status}
-                          </span>
+                          <select
+                            value={property.status}
+                            onChange={(e) => handleStatusChange(property._id, e.target.value)}
+                            className={`px-2 py-1 text-xs font-semibold rounded-full border-0 focus:ring-2 focus:ring-blue-500 ${
+                              property.status === 'active' 
+                                ? 'bg-green-100 text-green-800' 
+                                : property.status === 'sold'
+                                ? 'bg-red-100 text-red-800'
+                                : property.status === 'rented'
+                                ? 'bg-blue-100 text-blue-800'
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}
+                          >
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="sold">Sold</option>
+                            <option value="rented">Rented</option>
+                          </select>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex space-x-2">

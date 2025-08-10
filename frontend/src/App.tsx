@@ -10,13 +10,17 @@ import BuyerSignup from "./components/pages/BuyerSignup"
 import SellerSignup from './components/pages/SellerSignup'
 import Login from './components/pages/Login'
 import TestIntegration from './components/pages/TestIntegration'
+import TestConnection from './components/pages/TestConnection'
 import AboutUs from './components/pages/AboutUs'
 import ContactUs from './components/pages/ContactUs'
 import PropertyDetails from './components/pages/PropertyDetails'
-import SellerDashboard from './components/pages/SellerDashboard'
 import PropertyListing from './components/pages/PropertyListing'
 import PropertyDetailPage from './components/pages/PropertyDetailPage'
 import AddProperty from './components/pages/AddProperty'
+import SellerDashboard from './components/pages/SellerDashboard'
+import BuyerDashboard from './components/pages/BuyerDashboard'
+import EditProperty from './components/pages/EditProperty'
+import FavoritesPage from './components/pages/FavoritesPage'
 
 import './App.css'
 import PropertyDisplayPage from './components/pages/PropertyDisplayPage'
@@ -51,10 +55,14 @@ function App() {
         <Route path="/signup/seller" element={<SellerSignup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/test" element={<TestIntegration />} />
+        <Route path="/test-connection" element={<TestConnection />} />
         <Route path="/seller/dashboard" element={<SellerDashboard />} />
         <Route path="/seller/add-property" element={<AddProperty />} />
+        <Route path="/seller/edit-property/:id" element={<EditProperty />} />
         <Route path="/properties" element={<PropertyListing />} />
         <Route path="/properties/:id" element={<PropertyDetailPage />} />
+        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/buyer/dashboard" element={<BuyerDashboard />} />
       </Routes>
       {!hideNavAndFooter && <Footer />}
     </AuthProvider>
